@@ -4,11 +4,38 @@ import contactsData from "./contacts.json";
 
 function App() {
   const [contacts, setContacts] = useState(contactsData.slice(0, 5));
+  const handleAddRandomContact = () => {
+    const remainingContacts = contactsData.filter(contact => !contacts.includes(contact));
+    if (remainingContacts.length === 0) {
+      alert("No more contacts to add!");
+      return;
+    }
+    const randomIndex = Math.floor(Math.random() * remainingContacts.length);
+    const randomContact = remainingContacts[randomIndex];
+    const clone = contacts.slice(); 
+    clone.push(randomContact);
+    setContacts(clone);
+  };
+
+  const handleSortPopularity = () => {
+    const sortedContacts = [...contacts].sort((a, b) => b.popularity - a.popularity);
+    setContacts(sortedContacts);
+  };
+
+  const handleSortName = () => {
+    const sortedContacts = [...contacts].sort((a, b) => a.name.localeCompare(b.name));
+    setContacts(sortedContacts);
+  };
 
   return (
     <div className="App">
       <h1>LAB | React IronContacts</h1>
-      
+      <div className="buttonSection">
+      <button onClick={handleAddRandomContact}>Add Random Contact</button>
+      <button onClick={handleSortPopularity}>Sort by popularity</button>
+      <button onClick={handleSortName}>Sort by name</button>
+      </div>
+
       <table>
         <thead>
           <tr>
