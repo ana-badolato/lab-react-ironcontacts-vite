@@ -18,13 +18,19 @@ function App() {
   };
 
   const handleSortPopularity = () => {
-    const sortedContacts = [...contacts].sort((a, b) => b.popularity - a.popularity);
+    const sortedContacts = contacts.slice().sort((a, b) => b.popularity - a.popularity);
     setContacts(sortedContacts);
   };
-
+  
   const handleSortName = () => {
-    const sortedContacts = [...contacts].sort((a, b) => a.name.localeCompare(b.name));
+    const sortedContacts = contacts.slice().sort((a, b) => a.name.localeCompare(b.name));
     setContacts(sortedContacts);
+  };
+  
+
+  const handleDeleteContact = (contactId) => {
+    const filteredContacts = contacts.filter(contact => contact.id !== contactId);
+    setContacts(filteredContacts);
   };
 
   return (
@@ -60,6 +66,9 @@ function App() {
               <td>{contact.popularity.toFixed(2)}</td>
               <td>{contact.wonOscar ? "🏆" : ""}</td>
               <td>{contact.wonEmmy ? "🌟" : ""}</td>
+              <td>
+                <button onClick={() => handleDeleteContact(contact.id)}>Delete</button> {/* Delete button */}
+              </td>
             </tr>
           ))}
         </tbody>
